@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+<<<<<<< HEAD
 import cProfile
 import re
 
@@ -19,10 +20,29 @@ import re
 #		if is_triplet(i, j, k):
 #			print i, j, k
 #			print i*j*k
+=======
+#Problems 9, 10, 12, 15, 16, 17, 37
+
+#Problem 9 
+
+def is_triplet(a, b, c):
+	if a^2 + b^2 == c^2:
+		return True
+	else:
+		return False
+
+for i in range(1,333):
+	for j in range(i+1,1000-2*i):
+		k = 1000 - i - j
+		if is_triplet(i, j, k):
+			print i, j, k
+			print i*j*k
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 
 #Problem 10
 
+<<<<<<< HEAD
 #total = 0 
 
 #for i in range(1, 2000000):
@@ -30,10 +50,20 @@ import re
 #		total = total + i
 
 #print total 
+=======
+total = 0 
+
+for i in range(1, 2000000):
+	if i in Primes():
+		total = total + i
+
+print total 
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 
 #Problem 12
 
+<<<<<<< HEAD
 #def triangle(n):
 #	return n*(n+1)/2
 
@@ -42,25 +72,50 @@ import re
 #	n = n+1
 
 #print triangle(n)
+=======
+def triangle(n):
+	return n*(n+1)/2
+
+n = 1
+while number_of_divisors(triangle(n)) < 500:
+	n = n+1
+
+print triangle(n)
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 
 #Problem 15
 #To count the number of lattice paths:
 #From the set of n + n steps, choose any n to go down. 
 
+<<<<<<< HEAD
 #def lattice(n):
 #	return binomial(n+n, n)
 
 #print lattice(20)
+=======
+def lattice(n):
+	return binomial(n+n, n)
+
+print lattice(20)
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 
 #Problem 16
 
+<<<<<<< HEAD
 #def sum_digits(n):
 #	l = [int(d) for d in str(n)]
 #	return sum(l)
 
 #print sum_digits(2^1000)
+=======
+def sum_digits(n):
+	l = [int(d) for d in str(n)]
+	return sum(l)
+
+print sum_digits(2^1000)
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 #Problem 17
 words = {}
@@ -126,6 +181,7 @@ def count_letters(n):
 		total = total + len(words[i])
 	return total
 
+<<<<<<< HEAD
 #print count_letters(1000)
 
 
@@ -208,6 +264,9 @@ for i in range(1000000):
 			count = count + 1
 
 print count
+=======
+print count_letters(1000)
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
 
 
 #Problem 37
@@ -233,6 +292,7 @@ def is_left_truncatable(n):
 count = 0 
 total = 0
 n = 20
+<<<<<<< HEAD
 #while count < 11:
 #	if n in Primes():
 #		if is_left_truncatable(n) and is_right_truncatable(n):
@@ -552,3 +612,13 @@ def find_count(r):
 	return count
 
 #cProfile.run('find_count(10000000)')
+=======
+while count < 11:
+	if n in Primes():
+		if is_left_truncatable(n) and is_right_truncatable(n):
+			total = total + n
+			count = count + 1
+	n = n+1
+	
+print total
+>>>>>>> 5abc324c0c87adc56157d5b95bff7fc6a225cf56
