@@ -1,0 +1,691 @@
+// Exc 1.1
+
+A:= {2^x: x in {1..50}};
+
+// 1.2
+
+/*
+set := {x^2+3*x+1: x in {0..1000}};
+set5:= {5*i : i in {0..(1000^2+3*1000+1 div 5)}};
+print #(set meet set5);
+print set meet set5;
+*/
+
+// 1.3
+
+/*
+F:= {25*x-x^2+x^3-2*x^4: x in {-100..100}};
+Maximum(F);
+*/
+// 1.4
+/*
+S:= [1..10];
+E:= {2..10 by 2};
+
+SetToSequence(SequenceToSet(S) diff E);
+*/
+// 1.5
+// eventually read something in here?
+// using if
+
+/*
+x:= -5;
+if(x ge 0) then s:= x^3; s;
+else s:= (-x)^3; "s is negative"; s;
+end if;
+
+//using select
+s:= (x ge 0) select x^3 else (-x)^3; s; 
+
+// using cases
+
+case Sign(x):
+when 1: 
+s:= x^3;
+s;
+when 0:
+s:= 0;
+s;
+when -1:
+s:= (-x)^3;
+"s is negative";
+s;
+end case;
+*/
+
+// 1.6
+/*
+p1:= 4; p2:= 17; p3:= 23; p4:= 19; p5:= 6; p6:= 1;
+X:= {1..49};
+P:= {p1,p2,p3,p4,p5,p6};
+R:= {};
+for i in P do
+R:= Include(R,Random(X));
+end for;
+
+
+W:= P meet R;
+if (#W eq 6) then "Jackpot!";
+elif (#W eq 5) then "You win 2000 pounds";
+elif (#W eq 4) then "You win 65 pounds";
+elif (#W eq 3) then "You win 10 pounds";
+else "You win nothing";
+end if; 
+*/
+
+// 2.1
+/*
+p1:= 4; p2:= 15; p3:= 23; p4:= 19; p5:= 6; p6:= 1;
+n:= 100;
+winnings:=0;
+X:= {1..49};
+P:= {p1,p2,p3,p4,p5,p6};
+
+for i in {1..n} do 
+
+R:= [];
+for i in P do
+R:= Append(R,Random(X));
+end for;
+
+W:= P meet SequenceToSet(R);
+
+if (#W eq 6) then winnings+:=10000;"Jackpot!";winnings;
+elif (#W eq 5) then winnings+:=2000;"add 2000";winnings;
+elif (#W eq 4) then winnings+:=65;"add 65";winnings;
+elif (#W eq 3) then winnings+:=10;"add 10"; winnings;
+else winnings+:=0;
+end if; 
+end for;
+
+"Your winnings are: "; winnings; 
+*/
+
+// 2.2
+/*
+D:= {1..6};
+wins:= 0;
+numGames:= 1000;
+function Role()
+return (Random(D) + Random(D));
+end function;
+*/
+
+/*
+for i in [1..numGames] do 
+role:= Role();
+if (role eq 7 or role eq 11) then  wins+:=1; 
+elif (role eq 2 or role eq 3 or role eq 12) then wins+:=0;
+else point:= role;
+while (role ne 7 and role ne point) do
+role:= Role();
+end while;
+if (role eq 7) then wins+:=0;
+else wins+:=1; 
+//role; point;
+end if;
+end if;
+end for;
+print "you won " cat IntegerToString(wins) cat " out of " cat IntegerToString(numGames);
+print wins/numGames;
+*/
+
+//2.3
+/*
+X:= {1..49};
+
+function Lottery(S)
+R:= {};
+for i in S do
+R:= Include(R,Random(X));
+end for;
+
+W:= S meet R;
+if (#W eq 6) then return 10000;
+elif (#W eq 5) then return 2000;
+elif (#W eq 4) then return 65;
+elif (#W eq 3) then return 10;
+else return 0;
+end if; 
+end function;
+*/
+/*
+for i in [1..100] do 
+Lottery({1,17,19,34,46,8});
+end for;
+*/
+/*
+function Craps()
+role:= Role();
+if (role eq 7 or role eq 11) then  return 1; 
+elif (role eq 2 or role eq 3 or role eq 12) then return 0;
+else point:= role;
+while (role ne 7 and role ne point) do
+role:= Role();
+end while;
+if (role eq 7) then return 0;
+else return 1; 
+//role; point;
+end if;
+end if;
+end function;
+
+Craps();
+*/
+
+// 2.4 not sure what is meant here??
+
+// 2.5
+/*
+function Intersect(X)
+
+end function;
+*/
+
+// 2.6 
+/*
+X:= [1..20];
+X;
+S:= ["[ "];
+for i in X do Append(~S,IntegerToString(X[i])); Append(~S,", "); end for;
+Prune(~S);
+Append(~S, " ]"); 
+&cat S;
+*/
+
+
+//2.7
+
+//(i)
+/*
+function C1Hook(P)
+H:= [];
+for i in [1..#P] do
+Append(~H,HookLength(P,i,1));
+end for;
+return H;
+end function;
+C1Hook([4,4,3,2]);
+
+// (ii)
+function Partition(H)
+P:= [];
+for i in [1..#H] do 
+Append(~P,(H[i] - #H + i));
+end for;
+return P;
+end function;
+
+Partition([7,6,4,2]);
+
+//(iii)
+
+function FindRimHook(P,t)
+	s:=1; 
+	i:=1;
+	while (s lt t) and (i lt #P) do		
+		s+:= (P[#P-i]-P[#P-i+1]+1);
+		i+:=1;
+	end while;
+	if s eq t then return true;
+	else return false;
+	end if;
+end function;
+	
+	
+FindRimHook([4,4,3,2],4);
+
+function RemoveRimHook(P,t)
+	while P[#P] eq 0 do Prune(~P); end while;
+	Q:= P;
+	s:=1; 
+	i:=1;
+	Q[#P]-:= 1;
+	while (s lt t) and (i lt #P) do		
+		s+:= (P[#P-i]-P[#P-i+1]+1);
+		Q[#P-i]-:= (P[#P-i]-P[#P-i+1]+1);
+		i+:=1;
+	end while;
+	if s eq t then return true, Q;
+	else return false, "none";
+	end if;
+end function;
+	
+RemoveRimHook([4,4,3,2],3);
+
+//(iv)
+
+function TCore(P,t)
+	Q:= P;
+	count:= 0;
+	repeat 
+	Qold:= Q;
+	b, Q:= RemoveRimHook(Q,t);
+	count+:=1;
+	until b eq false; 
+	return Qold, count-1;
+end function;
+TCore([4,4,3,2],6);
+
+//(v)
+
+function RemoveList(n,t)
+	print "started";
+	LP:= Partitions(n);
+	//LP;
+	X:= [];
+	for i in [1..(n)] do Append(~X,0); end for;
+	for P in LP do
+		Q, s:= TCore(P,t);
+		X[s+1]+:=1;
+		//print P,X;
+	end for;
+	
+	return X;
+end function;
+//TCore([3,1,1,1,1,1],5);
+ RemoveList(8,5);
+ 
+*/
+
+// 3.1 (impossible as written?)
+/*
+function R(n)
+	if n eq 1 then return 1/2; 
+	else return (R(n-1)-R(n-1)^2/(n-1));
+	end if;
+end function;
+
+R(1); R(2); R(3);
+
+// 3.2 
+
+function D(n)
+	if (n eq -1 or n eq 0) then return 1;
+	else return (3*(2*n-1)*D(n-1)-(n-1)*D(n-2))/n;
+	end if;
+end function;
+
+D(-1);D(0);D(1);D(2);D(20);
+
+// a_20 = 260543813797441
+*/
+// 3.3
+/*
+function OddDistinctPartitions(n)
+	ODP:= [];
+	OP:= RestrictedPartitions(n,{1..n by 2});
+	for P in OP do 
+		if #P eq #SequenceToSet(P) then Append(~ODP,P); end if;
+	end for;
+	return ODP;
+end function;
+
+function SelfConjugatePartitions(n)
+	SCP:= [];
+	for P in Partitions(n) do
+		if P eq ConjugatePartition(P) then Append(~SCP,P); end if;
+	end for;
+	return SCP;
+end function;
+
+n:= 6;
+OddDistinctPartitions(n);
+Partitions(n);
+SelfConjugatePartitions(n);
+
+for i in {1..30} do
+	if #OddDistinctPartitions(i) eq #SelfConjugatePartitions(i) then 
+		print IntegerToString(i) cat " checks out!";
+	else print IntegerToString(i) cat " is no good :(";
+	end if;
+end for;
+*/
+
+// 3.9
+
+/*
+Z:=Integers();
+function OddDistinctPartitions(n)
+	p:=1;
+	R<x>:= PowerSeriesRing(Z,n+1);
+	for i in {1..n} do p*:=(1+x^(2*i-1)); end for;
+	return Coefficient(p,n);
+end function;
+
+time OddDistinctPartitions(1000);
+*/
+//3.6 
+/*
+n:=7;
+
+function IsoCheck(T,X)
+	for Y in T do
+		// X; Y;
+		if IsIsomorphic(Graph<n|X>,Graph<n| Y>) then 
+			print "iso";
+			return true; end if;
+	end for;
+	print "made it";
+	return false; 
+end function;
+
+E:= Subsets({1..n},2);
+E;
+S:= Subsets(E);
+S2:= S;
+I:= [];
+for X in S do
+	Exclude(~S2,X);
+	if IsoCheck(S2,X) eq true then
+		
+		//S2;
+	elif IsoCheck(S2,X) eq false then 
+	print "got here";
+	Append(~I,X);  end if;
+	
+end for;
+
+#I;
+*/
+// 4 gives 10
+// 7 took way too long ... modify by just looking at each set of graphs with particular number of edges 
+
+// 3.7 
+/*
+n:=5;
+p:=0.6;
+count:=0;
+for i in {1..1000} do
+	G:= RandomGraph(n,p);
+	// G;
+	if IsConnected(G) then count+:=1; end if;
+end for;
+
+time count;
+*/
+
+// got 859 ... takes a long time :(
+
+//3.8 Only done for ge 6
+/*
+C:= ComplexField;
+function Schroder(x)
+	return (1-x-(1-6*x+x^2)^(1/2))/(2*x);
+end function;
+
+for i in {6..30} do
+	Schroder(i);
+end for;
+*/
+
+
+//4.1 Laurent Polynomial Ring
+
+function LaurentPolynomialRing(F)
+	R<a,b>:=PolynomialRing(F,2);
+	L<x,y>:=quo<R|(a*b-1)>;
+	return L;
+end function;
+
+L<x,y>:=LaurentPolynomialRing(Rationals());
+x*y;
+x*y+x^2*y;
+
+//4.2 
+/*
+F<a>:=GF(4);
+R<x>:=PolynomialRing(F);
+count:=0;
+for i in F do
+	for j in F do
+		for k in F do
+			for l in F do
+				for m in F do
+					for n in F do
+						p:=i*x^5+j*x^4+k*x^3+l*x^2+m*x+n;
+						if p ne 0 and IsIrreducible(p) then count+:=1; end if;
+					end for;
+				end for;
+			end for;
+		end for;
+	end for;
+end for;
+
+count;
+*/
+
+
+//4.3 
+/*
+count:=0;
+Q:=Rationals();
+R<x>:=PolynomialRing(Q);
+
+for i in [2..20] do 
+	if IsSquare(i) eq false then
+		f:= x^2-i;
+		K:=SplittingField(f);
+		//R:=RingOfIntegers(K);
+		O:=IsUFD(K);
+		if O eq true then count+:=1; 
+		
+		end if;
+		
+	end if;
+end for;
+count;
+
+
+i:=20;
+O:=ClassNumber(SplittingField(x^2-i));
+while O ne 3 do 
+	i+:=1;
+	if IsSquare(i) eq false then
+		f:= x^2-i;
+		K:=SplittingField(f);
+		O:=ClassNumber(K) ;
+		
+	end if;
+	
+end while;
+i;
+while O ne 4 do 
+	i+:=1;
+	if IsSquare(i) eq false then
+		f:= x^2-i;
+		K:=SplittingField(f);
+		O:=ClassNumber(K) ;
+		
+	end if;
+	
+end while;
+i;
+*/
+
+// smallest d for 3 = 79, 4 = 82
+
+//4.5
+
+//4.6
+
+//4.7
+
+function LaurentPolynomialRing2(F)
+	R<a,b,c,d>:=PolynomialRing(F,2);
+	L<x,y,z,w>:=quo<R|(a*b-1),(c*d-1)>;
+	return L;
+end function;
+
+//4.8 Gaussian Elimination
+
+
+K:=Rationals();
+
+function ClearOuter(M,k)
+	n:=M[k][k];
+	MultiplyRow(~M,1/n,k);
+	if k lt NumberOfRows(M) then 
+	for i in {k+1,NumberOfRows(M)} do
+		AddRow(~M,-1*M[i][k],k,i);
+		//M;
+	end for;
+	for j in {k+1,NumberOfColumns(M)} do
+		AddColumn(~M,-1*M[k][j],k,j);
+		//j;
+		//M;
+	end for;
+	return M;
+	else return M;
+	end if;
+end function;
+
+
+
+
+function SetMatrix(M,k)
+	i:=k;
+	j:=k;
+	while M[i][j] eq 0 do
+		if i eq NumberOfRows(M) then j+:=1; i:=k-1; end if;
+		i+:=1;
+	end while;
+	//while M[i][j] eq 0 do
+	//	if j eq NumberOfColumns(M) then break; end if;
+	//	j+:=1;		
+	//end while;
+	if (i eq NumberOfRows(M) and j eq NumberOfComuns(M)) then return "done"; end if;
+	if i ne k then SwapRows(~M,k,i); end if;
+	if j ne k then SwapColumns(~M,k,j); end if;
+	M;
+	return M;
+end function;
+
+
+N:=Matrix(K,3,3,[1,2,4,3,5,7,5,5,4]);
+N;
+M:=Matrix(K,3,4,[1,0,5,7,1,4,2,6,0,9,3,5]);
+M;
+SetMatrix(M,1);
+ClearOuter(M,1);
+for l in {1..Rank(M)} do
+	M:=SetMatrix(M,l);
+	M:=ClearOuter(M,l);
+end for;
+	
+
+
+//N:=Matrix(K,3,3,[0,0,0,0,1,0,0,0,0]);
+//N;
+//SetMatrix(N,1);
+//N;
+//ClearOuter(M,1);
+
+//5.1 
+/*
+G:=Sym(7);
+H:=Subgroups(G:OrderEqual:=Factorial(7) div 2)[1]`subgroup;
+Z:=Subgroups(H:OrderMultipleOf:=14);
+S:=[];
+for i in {1..#Z} do
+	Append(~S,Z[i]`subgroup);
+	if IsIsomorphic(S[i],PSL(2,7)) then
+		print "subgroup " cat IntegerToString(i) cat " is iso to PSL(2,7)";
+	elif IsIsomorphic(S[i],H) then 
+		print "subgroup " cat IntegerToString(i) cat " is iso to A7";
+	else "fail :(";
+	end if;
+end for;
+*/
+
+//5.2
+/*
+G:=Sym(6);
+X:=Subgroups(G:IsNilpotent:=true);	
+#X;
+X;
+// got 25 as answer
+
+*/
+ //5.3 want to construct Q8
+/*
+S:=[];
+D8:=DihedralGroup(4);
+X:=Subgroups(Sym(8):OrderEqual:=8,IsAbelian:=false,IsTransitive:=true);
+X;
+for i in {1..#X} do
+	H:=X[i]`subgroup;
+	if IsIsomorphic(H,D8) then continue; end if;
+	if IsAbelian(H) then continue; end if;
+	Append(~S,H);
+end for;
+
+S;
+Q8:=S[1];
+Q8;
+// not sure what to do for central product?
+ZQ8:=Center(Q8);
+ZD8:=Center(D8);
+QQ:=DirectProduct(Q8,Q8)/DirectProduct(ZQ8,ZQ8);
+DD:=DirectProduct(D8,D8)/DirectProduct(ZD8,ZD8);
+IsIsomorphic(QQ,DD);
+*/
+
+// 5.4
+/*
+
+G:=PSL(2,11);
+P:=SylowSubgroup(G,2);
+E:=SetToSequence(Set(P));
+Class(G,G!E[1]) meet Set(P);
+*/
+// make function that does this form for loop
+
+// 5.5 
+/*
+G<a,b>:= Group<a,b|a^4 = 1, a^2=b^2, b^-1*a*b = a^-1>;
+G;
+IsIsomorphic(PermutationGroup(G),Q8);
+*/
+
+/*
+//5.6
+//(i)
+N:=[0];
+for i in {2..7} do 
+	Append(~N,NumberOfSmallGroups(101^i));
+end for;
+N;
+//(ii)
+X:=SmallGroups(16,func<x|Exponent(x) eq 4>);
+#X;
+
+//there appear to be 7
+//(iii)
+G<[x]>:=DihedralGroup(4);
+
+X;
+X[2];
+
+
+for i in {1..#X} do
+	for j in {(i+1)..#X} do
+		Orders1:={* *};
+		Orders2:={* *};
+		for a in Set(X[i]) do
+			Include(~Orders1,Order(a));
+		end for;
+		for a in Set(X[j]) do 
+			Include(~Orders2,Order(a));
+		end for;
+		//X[i];
+		Orders1;
+		//X[j];
+		Orders2;
+		if Orders1 eq Orders2 then print "success"; i; j; 
+		else "not this one"; i; j;
+		end if;
+	end for;
+end for;
+		
+*/
