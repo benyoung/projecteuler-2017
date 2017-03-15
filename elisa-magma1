@@ -1,0 +1,530 @@
+/*--------- Chapter 1------------ 
+
+/* Exercise 1.1 
+
+A:={2^x : x in {1..50}};
+
+/* Exercise 1.2 
+
+X:={x^2+3*x+1 : x in {0 .. 1000}};
+n:=1000^2+3*1000+1 div 5;
+Y:={5* y : y in {0 .. n+1} };
+
+Z:= X meet Y;
+
+Z;
+
+#Z;
+
+/* Exercise 1.3 
+
+W:={25*x-x^2+x^3-2*x^4: x in {-100..100}};
+
+Max(W);
+
+
+/* Exercise 1.4 
+
+A:=[1..10];
+B:={2..10 by 2}; 
+C:=SequenceToSet(A);
+E:=C diff B; 
+SetToSequence(E);
+
+
+/* Exercise 1.5 
+x:=5; 
+if (x gt 0) then s:=x^3;
+ else s:=-x^3; end if;
+s; 
+
+x:=(x gt 0) select x^3 else -x^3;
+s;
+
+x:=5;
+case Sign(x):
+when 1:
+	s:=x^3;
+when 0:
+	s=x^3;
+when -1:
+	s:=-x^3;
+end case;
+s;
+
+
+/* Exercise 1.6 
+I:={1, 2, 3, 4, 5, 6}; 
+X:={1..49};
+L:={Random(X), Random(X), Random(X), Random(X), Random(X), Random(X)};
+L; 
+Y:=I meet L; 
+
+
+if (#Y eq 0) then print("You lose!"); 
+elif (#Y eq 1) then print("You lose!"); 
+elif (#Y eq 2) then print("You lose!"); 
+elif (#Y eq 3) then print("You win 10 pounds!");
+elif (#Y eq 4) then print("You win 65 pounds!");
+elif (#Y eq 5) then print("You win 2,000 pounds!");
+elif (#Y eq 6) then print("You win the Jackpot!!");
+end if;
+*/
+
+/*	
+
+/*--------- Chapter 2------------ 
+
+/* Exercise 2.1 
+
+I:={1, 2, 3, 4, 5, 6}; 
+X:={1..49}; 
+
+
+
+n:=5000;
+s:=0; 
+for i in [1 .. n] do
+L:={Random(X), Random(X), Random(X), Random(X), Random(X), Random(X)};
+Y:=I meet L; 
+if (#Y eq 0) then s:=s+0; 
+elif (#Y eq 1) then s:=s+0;
+elif (#Y eq 2) then s:=s+0; 
+elif (#Y eq 3) then s:=s+10;
+elif (#Y eq 4) then s:=s+65;
+elif (#Y eq 5) then s:=s+1000;
+elif (#Y eq 6) then print("You win the Jackpot!!"); break; 
+end if; end for; 
+
+s; 
+
+/* Exercise 2.2 
+
+w:=0; 
+l:=0;  
+
+for i in [1 .. 10] do
+
+X:={1 .. 6};
+Y:={Random(X)+Random(X)};
+W:={7, 11};
+L:={2, 3, 12};
+
+if (#(W meet Y) eq 1) then
+ w+:=1;  
+elif (#(L meet Y) eq 1) then 
+ l+:=1;   
+elif (#(W meet Y) eq 0 and #(L meet Y) eq 0) then
+	P:=Random(X)+Random(X);
+	n:=1;
+	R:={Random(X)+Random(X)};  
+	while (#({7} meet R) eq 0 and #({P} meet R) eq 0) do
+		n+:=1;
+		R:={Random(X)+Random(X)}; 
+	end while;
+	if (7 in R) then
+ l+:=1; 
+	elif (P in R) then 
+  w+:=1; 
+	end if; 
+end if;
+end for; 
+
+w; 
+l;  
+	
+
+/* Exercise 2.3 */
+
+/* Exercise 2.4 */
+
+/* Exercise 2.5 */
+
+/* Exercise 2.6 */
+
+/* Exercise 2.7 */
+
+/* (i) 
+P:=[4, 4, 3, 2]; 
+
+function hook(P)
+H:=[]; 
+for i in [1 .. #P] do 
+	H:=Append(H, HookLength(P, i, 1));
+	
+
+end for;  
+
+return H;
+
+end function; 
+
+hook(P); 
+
+
+/* (ii) */
+
+/* (iii) 
+
+ 
+function findrimhook(P, t)
+s:=1;
+i:=1; 
+Q:=P;
+Q[#P]-:=1;  
+while (s lt t and i lt #P) do
+	s+:=P[#P-i]-P[#P-i+1]+1; 
+	Q[#P-i]-:=P[#P-i]-P[#P-i+1]+1; 
+	i+:=1; 
+end while;
+
+if s eq t then
+	return true, Q;
+else
+	return false, "none"; 
+end if; 
+end function; 
+
+findrimhook([4, 4, 3, 2], 3);  
+
+/* (iv) 
+P:=[4, 4, 3, 2]; 
+function findcore(P, t); 
+Q:=P; 
+count:=0; 
+repeat 
+Qold:=Q; 
+b, Q:= findrimhook(Q, t); 
+count:= count+1; 
+until b eq false; 
+
+return Qold, count-1; 
+end function; 
+
+findcore(P, 6); 
+
+/* (v) 
+
+
+function removelist(n, t); 
+L:=[];
+m:=n div t; 
+for i in {1.. n} do
+	L:=Append(L, 0); 
+	end for; 
+LP:=Partitions(n); 
+for P in LP do 
+	Q, s:=findcore(P, t); 
+	L[s+1]:=L[s+1]+1; 
+end for; 
+
+return L; 
+end function; 
+
+removelist(2, 2); 
+
+/*--------- Chapter 3------------
+
+// 3.1 
+
+function seq(n) 
+xo:=0.5;
+for i in {1..n} do
+	xn:=xo-(xo^2)/n; 
+	xo:=xn;
+end for; 
+return xn;
+end function; 
+
+seq(25);
+
+
+// 3.2 
+
+function delannoy(n)
+ao:=1.0; 
+ac:=1.0; 
+for i in {1.. n} do
+	an:=(3*(2*n-1)*ac-(n-1)*ao)/n; 
+	ao:=ac; 
+	ac:=an;
+end for;
+return an; 
+end function; 
+
+delannoy(20);
+
+
+// 3.3 
+function OddDistinctPartitions(n)
+	P:=RestrictedPartitions(n, {1..n by 2});
+	L:=[]; 
+	time for X in P do
+		if #SequenceToSet(X) eq #X then 
+		Append(L, X); 
+		end if; 
+	end for; 
+	return L; 
+	end function; 
+
+OddDistinctPartitions(100);    
+
+function SelfConjugatePartitions(n); 
+	L:=Partitions(n); 
+	S:=[];
+	for i in {1..#L} do
+	if L[i] eq ConjugatePartition(L[i]) then
+		S:=Append(S, L[i]); 
+	end if; 
+	end for; 
+	return S; 
+	end function; 
+
+P:=SelfConjugatePartitions(20); 
+P; 
+	
+/*
+
+// 3.4 
+function NextPartition(P)
+n:=Weight(P); 
+i:=IndexOfPartition(P);
+N:=Partitions(n)[i+2]; 
+return N;
+end function;
+
+N:=NextPartition([2, 1]);
+N;
+
+/* 3.5 
+
+function Multipartitions(n, k)
+	P:=Partitions(n, k)
+
+
+		
+			
+
+//3.6 
+
+4unction NumIsoClasses(n)
+	S:=Subsets({1..n}, 2); 
+	SS:=Subsets(S); 
+	L:=[];
+	for i in SS do
+		G:=Graph<n | i>;
+		L:=Append(L, G);
+	end for;
+
+	C:=[]; 
+	for i in {1..#L} do
+		C[i]:=0; 
+		for j in {1..#L} do
+			if IsIsomorphic(L[i], L[j]) then
+			C[i]:=C[i]+1;  
+			end if; 
+		end for; 
+	end for; 
+	C:=SequenceToMultiset(C); 
+
+	count:=0;
+	for i in {1..#L} do
+		count:=count+Multiplicity(C, i)/i; 
+	end for; 
+
+return count;	
+end function; 
+NumIsoClasses(7); 
+	
+	
+
+
+// 3.7 
+count:=0;
+for i in {1..1000} do
+	if IsConnected(RandomGraph(5, 0.6)) then 
+		count:=count+1.0;
+	end if;
+end for; 
+
+Prob:=count/1000;
+
+Prob;
+
+// 3.8
+
+function Sch(x)
+	G:=(1.0-x-(1.0-6.0*x+x^2)^(1/2))/(2.0*x); 
+	return G; 
+end function; 
+
+L=[]; 
+for i in {1..30} do
+	Append(L, Sch(i)); 
+end for; 
+
+L; 
+
+// 3.9
+
+function OddDistinctPartitions(n)
+Z:=Integers();
+R<x>:=PowerSeriesRing(Z, n+1); 
+	p:=1; 
+	for i in {1..2*n-1} do
+	 p:=p*(1+x^(2*i-1)); 
+	end for; 
+	c:=Coefficient(p, n); 
+	return c; 
+	end function; 
+	
+time OddDistinctPartitions(100); 
+
+		
+*/
+
+//--------- Chapter 4------------
+
+//4.1
+function LaurentPolynomialRing(F)
+	R<a, b>:=PolynomialRing(F, 2); 
+	L<x, y>:=quo<R | a*b-1>; 
+	return L; 
+end function;
+
+F:=Rationals(); 
+L<x, y>:=LaurentPolynomialRing(Rationals()); 
+(x+1)*(y+2); 
+
+
+//
+function MultiLaurentPolynomialRing(F); 
+	R<a, b, c, d>:=PolynomialRing(F, 4); 
+	L<x, invx, y, invy>:=quo<R | a*b-1, c*d-1>; 
+	return L; 
+end function; 
+
+
+
+//4.2
+
+F:=GF(4); 
+R<x>:=PolynomialRing(F);
+count:=0; 
+for i in {1..5} do
+	count:=count+#AllIrreduciblePolynomials(F, i); 
+end for;
+3*count;
+
+
+
+//4.4
+L:=[];
+for d in {2..20} do 
+	if IsSquare(d) eq false then
+		f:=x^2-d; 
+		K:=SplittingField(f); 
+		if IsUFD(K) then 
+			L:=Append(L, d); 
+		end if; 
+	end if; 
+end for; 
+L; 
+#L; 
+		
+
+
+
+//4.7
+L<x, invx, y, invy>:=MultiLaurentPolynomialRing(Rationals()); 
+M:=Matrix(L, 3, 3, [x, x+invx, y+x*y+invy,  1, x*y^2-y*x^2, x*invy,  x^2+invx^2, 1/2, invy*invx-y^2]); 
+Determinant(M); 
+
+Type(L); 
+
+
+	
+
+
+/*
+// 5.1
+G:=AlternatingGroup(7); 
+L:=[];
+for i in {1..180} do
+	X:=Subgroups(G: OrderEqual:=14*i);
+	if #X ge 1 then
+		L:=Append(L, X); 
+	end if;
+end for;  
+
+#L;
+
+//5.2
+
+G:=SymmetricGroup(6); 
+X:=Subgroups(G: IsNilpotent);
+#X;  
+
+//5.3 
+
+L:=[]; 
+X:=Subgroups(Sym(8): OrderEqual:=8, IsTransitive:=true); 
+for i in {1..#X} do
+	if IsIsomorphic(X[i]`subgroup, DihedralGroup(4)) then continue;
+	end if; 
+	if IsAbelian(X[i]`subgroup) then continue;
+	else L:=Append(L, X[i]`subgroup); 
+	end if; 
+end for; 
+L;
+
+G:=DirectProduct(DihedralGroup(4), DihedralGroup(4));
+ZG:=DirectProduct(Center(DihedralGroup(4)), Center(DihedralGroup(4))); 
+
+H:=DirectProduct(L[1], L[1]); 
+ZH:=DirectProduct(Center(L[1]), Center(L[1])); 
+
+IsIsomorphic(G/ZG, H/ZH); 
+
+//5.4
+/*
+G:=PSL(2, 11); 
+P:=SylowSubgroup(G, 2);
+Q:=CyclicGroup(4);
+IsIsomorphic(P, Q);
+X:=SetToSequence(Generators(G)); 
+for i in {1..#X} do
+	Class
+//X:=ConjugacyClasses(G); 
+//S:=[{X[i][3]} meet Set(P): i in {1..#X}]; 
+//S;
+
+//5.5
+G<a, b>:=Group<a, b| a^4=1, a^2=b^2, b^(-1) *a*b=a^(-1)>; 
+P:=PermutationGroup(G); 
+IsIsomorphic(P, L[1]); 
+
+
+//---5.6
+//(i)
+count:=0; 
+for i in {1..7} do
+	count:=count+NumberOfSmallGroups(101^i); 
+end for; 
+
+count; 
+
+//(ii)
+X:=SmallGroups(16, func<x|Exponent(x) eq 4>); 
+#X; 
+
+//(iii)
+G<[x]>:=DihedralGroup(4);
+Order(x[1]); 
+
+*/
+
+
+
+
+
